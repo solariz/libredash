@@ -4,11 +4,17 @@ import requests
 import json
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
+import configparser
+
+# Read configuration
+config = configparser.ConfigParser()
+config.read('config.ini')
+LOCAL_TIMEZONE = config['General']['LOCAL_TIMEZONE']
 
 def format_datetime_to_local(dt_str):
     """Convert UTC datetime string to local timezone."""
     dt = datetime.strptime(dt_str, "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc)
-    local_tz = ZoneInfo("Asia/Riyadh")  # Replace with your local timezone
+    local_tz = ZoneInfo(LOCAL_TIMEZONE)
     return dt.astimezone(local_tz).strftime("%Y-%m-%d %H:%M:%S")
 
 def get_down_devices(api_url, api_token):
