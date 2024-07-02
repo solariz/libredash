@@ -31,6 +31,7 @@ pip install requests jinja2 urllib3 configparser
 ```ini
 [General]
 HTML_OUTPUT = /path/to/output/down_devices.html
+LOCAL_TIMEZONE = Europe/Berlin
 
 [LIBRE1]
 API_URL = https://librenms.example.com/api/v0
