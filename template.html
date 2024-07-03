@@ -23,10 +23,6 @@
             line-height: 1.4;
             margin: 0;
             padding: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
         }
         h1 {
             text-align: center;
@@ -38,12 +34,21 @@
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 15px;
             max-width: 1200px;
-            width: 100%;
+            margin: 0 auto;
         }
         .container-center {
             display: flex;
-            max-width: 1200px;
             width: 100%;
+        }
+        .centered-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .centered-image img {
+            max-width: 100%;
+            height: auto;
         }
         .device-box {
             border-radius: 8px;
@@ -91,28 +96,46 @@
         .alert-240 { background-color: var(--color-alert-240); }
         .alert-480 { background-color: var(--color-alert-480); }
         .alert-481 { background-color: var(--color-alert-481); }
-        .centered-image {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-        }
-
-        .centered-image img {
-            max-width: 100%;
-            height: auto;
-        }
     </style>
 </head>
 <body>
     <h1>⚠️ Devices Down ⚠️</h1>
+    <div class="container">
+    {% for device in devices %}
+        {% set minutes = device.downtime_seconds // 60 %}
+        {% if minutes <= 20 %}
+            {% set alert_class = 'alert-20' %}
+        {% elif minutes <= 60 %}
+            {% set alert_class = 'alert-60' %}
+        {% elif minutes <= 240 %}
+            {% set alert_class = 'alert-240' %}
+        {% elif minutes <= 480 %}
+            {% set alert_class = 'alert-480' %}
+        {% else %}
+            {% set alert_class = 'alert-481' %}
+        {% endif %}
+        <div class="device-box {{ alert_class }}">
+            <div class="device-name">{{ device.name }}</div>
+            {% if device.location and device.location.lower() != "unknown" and device.location != device.name %}
+                <div class="device-info">{{ device.location }}</div>
+            {% endif %}
+            <div class="device-info">{{ device.hostname }}</div>
+            {% if api_source_count > 1 %}
+            <div class="device-info">{{ device.server }}</div>
+            {% endif %}
+            <div class="device-downtime">{{ device.downtime }}</div>
+            <div class="device-info">Last polled: {{ device.last_polled }}</div>
+            <!--<div class="device-info">Reason: {{ device.status_reason }}</div>-->
+        </div>
+    {% endfor %}
+    </div>
     <div class="container-center">
         <div class="centered-image">
-            <img src="ok.png" alt="All systems operational" />
+            <img src="{{ ok_image }}" alt="All systems operational" />
         </div>
     </div>
     <div class="creation-time">
-        Created on 2024-07-03 17:05:05
+        Created on {{ creation_time }}
     </div>
 </body>
 </html>

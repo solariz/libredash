@@ -93,7 +93,8 @@ if all_down_devices:
         html_output = template.render(
             devices=devices_with_downtime,
             creation_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            api_source_count=api_source_count
+            api_source_count=api_source_count,
+            ok_image=""
         )
 
         with open(HTML_OUTPUT, 'w') as f:
@@ -108,7 +109,7 @@ else:
 
         template = Template(template_content)
         html_output = template.render(
-            devices=None,  # Pass None instead of an empty string
+            devices=[],  # Pass None instead of an empty string
             creation_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             api_source_count=api_source_count,
             ok_image="ok.png"  # Add the image path here
