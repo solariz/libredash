@@ -101,4 +101,19 @@ if all_down_devices:
         print(f"HTML output written to {HTML_OUTPUT}")
 else:
     print("No devices are currently down on any server.")
+    if args.html:
+        # Generate HTML output
+        with open('template.html', 'r') as f:
+            template_content = f.read()
 
+        template = Template(template_content)
+        html_output = template.render(
+            devices=None,  # Pass None instead of an empty string
+            creation_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            api_source_count=api_source_count,
+            ok_image="ok.png"  # Add the image path here
+        )
+
+        with open(HTML_OUTPUT, 'w') as f:
+            f.write(html_output)
+        print(f"HTML output written to {HTML_OUTPUT}")
