@@ -94,7 +94,7 @@ if all_down_devices:
             devices=devices_with_downtime,
             creation_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             api_source_count=api_source_count,
-            ok_image=""
+            ok_msg=""
         )
 
         with open(HTML_OUTPUT, 'w') as f:
@@ -112,7 +112,7 @@ else:
             devices=[],  # Pass None instead of an empty string
             creation_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             api_source_count=api_source_count,
-            ok_image="ok.png"  # Add the image path here
+            ok_msg='<img src="ok.png" alt="All systems operational" />'  # Add the image path here
         )
 
         with open(HTML_OUTPUT, 'w') as f:

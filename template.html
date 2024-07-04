@@ -33,7 +33,6 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 15px;
-            max-width: 1200px;
             margin: 0 auto;
         }
         .container-center {
@@ -130,9 +129,7 @@
     {% endfor %}
     </div>
     <div class="container-center">
-        <div class="centered-image">
-            <img src="{{ ok_image }}" alt="All systems operational" />
-        </div>
+        <div class="centered-image">{{ ok_msg }}</div>
     </div>
     <div class="creation-time">
         Created on {{ creation_time }}
