@@ -13,6 +13,8 @@ LOCAL_TIMEZONE = config['General']['LOCAL_TIMEZONE']
 
 def format_datetime_to_local(dt_str):
     """Convert UTC datetime string to local timezone."""
+    if dt_str is None:
+        return 'Unknown'
     dt = datetime.strptime(dt_str, "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc)
     local_tz = ZoneInfo(LOCAL_TIMEZONE)
     return dt.astimezone(local_tz).strftime("%Y-%m-%d %H:%M:%S")
