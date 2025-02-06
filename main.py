@@ -53,6 +53,9 @@ def main():
     if all_down_devices:
         devices_with_downtime = []
         for server, device in all_down_devices:
+            # if 'disable_notify': 1 then skip
+            if device.get('disable_notify') == 1:
+                continue
             seconds, downtime = format_downtime(device)
             device_name = device.get('display_name') or device.get('sysName') or device['hostname']
             location = device.get('location')
