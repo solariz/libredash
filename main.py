@@ -50,12 +50,13 @@ def main():
             except KeyError as e:
                 print(f"Error: Missing required configuration in section {section}. {str(e)}")
 
+    # remove devices that have disable_notify set to 1
+    all_down_devices = [(server, device) for server, device in all_down_devices if device.get('disable_notify') != 1]
+
     if all_down_devices:
         devices_with_downtime = []
+        # go through all devices
         for server, device in all_down_devices:
-            # if 'disable_notify': 1 then skip
-            if device.get('disable_notify') == 1:
-                continue
             seconds, downtime = format_downtime(device)
             device_name = device.get('display_name') or device.get('sysName') or device['hostname']
             location = device.get('location')
@@ -99,7 +100,7 @@ def main():
                 devices=devices_with_downtime,
                 creation_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 api_source_count=api_source_count,
-                ok_msg=""
+                ok_msg="..."
             )
 
             with open(HTML_OUTPUT, 'w') as f:
